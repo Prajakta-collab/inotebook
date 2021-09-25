@@ -3,13 +3,16 @@ const User=require('../models/User')
 const router=express.Router();
 const { body, validationResult } = require('express-validator');
 var bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
+
+const JWT_SECRET='pr@j_l@ves_$u$h';
 
 
 
 
 //create a User using :Post (/api/auth/createuser)  no login required
 router.post('/createuser',[
-    body('email','Enter a valid email ').isEmail(),
+    body('email','Enter a validemail ').isEmail(),
     body('name','Enter valid name').isLength({min:2}),
     body('password','Password must be of atleast 5 characters ').isLength({ min: 5 }),
     
@@ -37,7 +40,18 @@ router.post('/createuser',[
         password: secPass,
         email: req.body.email,
       })
-      res.json(user)
+
+      const data={
+        id:user.id
+      }
+      //data mdhe id hya sathi vaprliy bcoz id vr index ahe apli so it will be easy and fast to retrive 
+      //jwt sign method use to sign the secret 
+      //JWT_SECRET is our 256 bit secret
+      const authToken=jwt.sign(data,JWT_SECRET);
+      //res.json(user)
+
+      //authToken return kru apn user la
+      res.json(authToken);
       
       // .then(user => res.json(user))
       // .catch(err=>console.log(err))
