@@ -18,8 +18,7 @@ const Noteitem = (props) => {
         deleteNote(note._id);
     }}></i> 
     <i className="fas fa-edit mx-2" onClick={()=>{updateNote(note)}}></i>
-{    console.log(note)
-} 
+
   </div>
 </div>
 </div>

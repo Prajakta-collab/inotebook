@@ -6,11 +6,12 @@ const Addnote = () => {
 
     const context=useContext(noteContext);
     const {addNote}=context;
-const [note, setnote] = useState({title:"", description:"",tag:"default"})
+const [note, setnote] = useState({title:"", description:"",tag:""})
 
 const handleClick=(e)=>{
-  e.preventDefault();
+e.preventDefault();
 addNote(note.title,note.description,note.tag)
+setnote({title:"", description:"",tag:""})
 
 
 }
@@ -33,8 +34,9 @@ setnote({...note,[e.target.name]:e.target.value})
               name="title"
               aria-describedby="emailHelp"
               placeholder="Enter title"
-              onChange={onChange}
-              style={{width:'40vw'}}
+              onChange={onChange} 
+             minLength={5} required
+             value={note.title}
             />
             
           </div>
@@ -47,7 +49,8 @@ setnote({...note,[e.target.name]:e.target.value})
               name="description"
               placeholder="Descripion"
               onChange={onChange}
-              style={{width:'40vw',height:'15vh'}}
+              style={{height:'15vh'}} minLength={5} required
+              value={note.description}
             />
 
           </div>
@@ -60,12 +63,13 @@ setnote({...note,[e.target.name]:e.target.value})
               name="tag"
               placeholder="Tag"
               onChange={onChange}
-              style={{width:'40vw'}}
+              minLength={5} required
+              value={note.tag}
             />
 
           </div>
          
-          <button type="submit" className="btn btn-primary my-3" onClick={handleClick}>
+          <button disabled={note.title.length<5 || note.description.length<5}  className="btn btn-primary my-3" onClick={handleClick}>
             Add Note
           </button>
         </form>

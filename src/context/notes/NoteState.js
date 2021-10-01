@@ -32,7 +32,7 @@ const NoteState = (props) => {
   const addNote = async (title, description, tag) => {
     //todo Api call here
 
-    await fetch(`${host}/api/notes/addnotes`, {
+    const response=await fetch(`${host}/api/notes/addnotes`, {
       method: "POST",
 
       headers: {
@@ -43,16 +43,7 @@ const NoteState = (props) => {
 
       body: JSON.stringify({ title, description, tag }),
     });
-    console.log("adding a new note");
-    const note = {
-      _id: "6151d637fec7c92d2215d84a1",
-      user: "614f6058c370ff686397bb4b",
-      title: title,
-      description: description,
-      tag: tag,
-      date: "2021-09-27T14:33:27.618Z",
-      __v: 0,
-    };
+    const note=await response.json()
 
     setNotes(notes.concat(note));
   };
@@ -79,9 +70,9 @@ const NoteState = (props) => {
     setNotes(newNote);
   };
   //Edit a note
-  const editNote = async (id, title, description, tag) => {
+  let editNote = async (id, title, description, tag) => {
     //api call
-   await fetch(`${host}/api/notes/updatenote/${id}`, {
+   const response=await fetch(`${host}/api/notes/updatenote/${id}`, {
       method: "PUT",
 
       headers: {
@@ -93,22 +84,25 @@ const NoteState = (props) => {
       body: JSON.stringify({ title, description, tag })
      
     });
+    const json=response;
+    console.log(json);
 
-    let newNote=JSON.parse(JSON.stringify(notes))
+    let newNotes=JSON.parse(JSON.stringify(notes))
 
     //logic to edit note at client
-    for (let index = 0; index < newNote.length; index++) {
-      const element = newNote[index];
+    for (let index = 0; index < newNotes.length; index++)
+     {
+      const element = newNotes[index];
       if (element.id === id) {
-        newNote[index].title = title;
-        newNote[index].description = description;
-        newNote[index].tag = tag;
+        newNotes[index].title= title;
+        newNotes[index].description = description;
+       newNotes[index].tag = tag;
         break;
       }
       
     }
-    console.log("newnote",newNote)
-    setNotes(newNote)
+    console.log("newnote",newNotes)
+    setNotes(newNotes)
   };
 
   return (

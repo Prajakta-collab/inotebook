@@ -26,7 +26,7 @@ const Notes = () => {
 
     const handleClick=(e)=>{
         console.log("updating the note",note)
-        //e.preventDefault();
+        e.preventDefault();
         editNote(note.id,note.etitle,note.edescription,note.etag)
         refClose.current.click();
 
@@ -70,7 +70,7 @@ const Notes = () => {
               placeholder="Enter title"
               onChange={onChange}
               value={note.etitle}
-              
+              minLength={5} required
             />
             
           </div>
@@ -84,7 +84,7 @@ const Notes = () => {
               placeholder="Descripion"
               onChange={onChange}
               value={note.edescription}
-             
+             minLength={5} required
             />
 
           </div>
@@ -98,6 +98,7 @@ const Notes = () => {
               placeholder="Tag"
               onChange={onChange}
               value={note.etag}
+              minLength={5} required
 
               
             />
@@ -110,17 +111,17 @@ const Notes = () => {
       </div>
       <div className="modal-footer">
         <button ref={refClose} type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary" onClick={handleClick}>Update Note</button>
+        <button disabled={note.etitle.length<5 || note.edescription.length<5} type="button" className="btn btn-primary" onClick={handleClick}>Update Note</button>
       </div>
     </div>
   </div>
 </div>
-        <div className="container row my-3 centre" style={{marginLeft:'75px'}}>
+        <div className="container row my-3 centre" style={{marginLeft:'5vw'}}>
            
           
             <h2>Your notes :</h2>
-            {
-                notes.map((note)=>{
+            {notes.length===0 && 'no notes to display'}
+            {  notes.map((note)=>{
                    return <Noteitem key={note._id} updateNote={updateNote} note={note}/>
                 })
             }
