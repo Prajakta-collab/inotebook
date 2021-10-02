@@ -20,11 +20,12 @@ const Login = (props) => {
             body: JSON.stringify({email:credentials.email ,password :credentials.password}),
           });
          const json= await response.json();
-         console.log(json)
+         console.log("json when login",json)
 
          if(json.success){
              //save the token 
-             localStorage.setItem('token', json.authtoken);
+             localStorage.setItem('token', json.authToken);
+             console.log(localStorage.getItem('token'))
              console.log("zal save")
              history.push('/');
              props.showAlert("Logged in Successfully !","success");
@@ -40,15 +41,15 @@ const Login = (props) => {
 
     }
     return (
-        <div className="container">
+        <div className="container mt-5">
            <form onSubmit={handleSubmit}>
   <div className="form-group mb-3 ">
-    <label htmlFor="exampleInputEmail1">Email address</label>
+    <label htmlFor="email">Email address</label>
     <input type="email" id="email" name="email" className="form-control" onChange={onChange}  value={credentials.email} aria-describedby="emailHelp" placeholder="Enter email"/>
    
   </div>
   <div className="form-group  mb-3 ">
-    <label for="exampleInputPassword1">Password</label>
+    <label htmlFor="password">Password</label>
     <input type="password" id="password" name="password" className="form-control" onChange={onChange}  value={credentials.password} placeholder="Password"/>
   </div>
  

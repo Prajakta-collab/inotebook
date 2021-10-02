@@ -26,8 +26,9 @@ const Signup = (props) => {
   
            if(json.success){
                //save the token 
-               localStorage.setItem('token', json.authtoken);
+               localStorage.setItem('token', json.authToken);
                console.log("zal save")
+               console.log("signup nantr saved token ",localStorage.getItem('token'))
                history.push('/');
                props.showAlert("Account created Successfully !","success");
                

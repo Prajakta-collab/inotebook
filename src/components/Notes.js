@@ -1,4 +1,5 @@
 import React,{useContext, useEffect, useRef, useState} from 'react'
+import { useHistory } from 'react-router';
 import noteContext from '../context/notes/noteContext';
 
 import Addnote from './Addnote';
@@ -10,11 +11,19 @@ const Notes = () => {
     const {notes,getNote,editNote}=context;
 
     const [note, setnote] = useState({id:" ",etitle:"", edescription:"",etag:"default"})
+    let history=useHistory();
 
 
     useEffect(() => {
         
-        getNote();
+       
+        if(localStorage.getItem('token')){
+          
+          getNote();
+        }
+        else{
+          history.push('/login');
+        }
         // eslint-disable-next-line
     },[])
     const updateNote=(CurrentNote)=>{
@@ -116,12 +125,12 @@ const Notes = () => {
     </div>
   </div>
 </div>
-        <div className="container row my-3 centre" style={{marginLeft:'5vw'}}>
+        <div className="container row my-3 "style={{marginLeft:'5vw'}}>
            
           
             <h2>Your notes :</h2>
             {notes.length===0 && 'no notes to display'}
-            {  notes.map((note)=>{
+            {notes.map((note)=>{
                    return <Noteitem key={note._id} updateNote={updateNote} note={note}/>
                 })
             }
