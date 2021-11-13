@@ -12,7 +12,7 @@ const JWT_SECRET = "pr@j_l@ves_$u$h";
 
 // Route 1: Create a User using :Post (/api/auth/createuser)  no login required
 router.post(
-  "/createuser",
+  '/createuser',
   [
     body("email", "Enter a validemail ").isEmail(),
     body("name", "Enter valid name").isLength({ min: 2 }),
@@ -27,9 +27,12 @@ router.post(
       return res.status(400).json({success, errors: errors.array() });
     }
     try {
+    
       //if there are error in this array , then return Bad request and errors
       //findOne chya parameter mmdhe req.body.email mnje jr hya req wala email already exist krtoy tr bad request show kra
       let user = await User.findOne({ email: req.body.email });
+      
+      
       if (user) {
         return res
           .status(400)
@@ -48,7 +51,8 @@ router.post(
       });
 
       const data = {
-        id: user.id,
+        user:{ id: user.id}
+       
       };
       //data mdhe id hya sathi vaprliy bcoz id vr index ahe apli so it will be easy and fast to retrive
       //jwt sign method use to sign the secret
@@ -63,7 +67,7 @@ router.post(
       // .catch(err=>console.log(err))}
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("");
+      res.status(500).send("kahi tri gadbad ahe ");
     }
   }
 );
